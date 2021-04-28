@@ -7,6 +7,8 @@ using System.Text;
 using Entities.DTOs;
 using Core.Utilities.Results;
 using Business.Constants;
+using Core.Aspects.Autofac.Validation;
+using Business.ValidationRules.FluentValidation;
 
 namespace Business.Concrete
 {
@@ -16,6 +18,18 @@ namespace Business.Concrete
         public CarManager(ICarDal carDal )
         {
             _carDal = carDal;
+        }
+        [ValidationAspect(typeof(CarValidator))]
+        public IResult Add(Car car)
+        {
+            _carDal.Add(car);
+            return new SuccessResult(Messages.CarAdded);
+        }
+
+        public IResult Delete(Car car)
+        {
+            _carDal.Delete(car);
+            return new SuccessResult(Messages.CarDeleted);
         }
 
         public IDataResult<List<Car>> GetAll()
@@ -50,6 +64,12 @@ namespace Business.Concrete
 
             }
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailDtos());
+        }
+        [ValidationAspect(typeof(CarValidator))]
+        public IResult Update(Car car)
+        {
+            _carDal.Update(car);
+            return new SuccessResult(Messages.CarUpdated);
         }
     }
 }
