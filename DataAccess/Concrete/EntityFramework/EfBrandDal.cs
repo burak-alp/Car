@@ -1,4 +1,5 @@
-﻿using Core.DataAccess.EntityFramework;
+﻿using Core.DataAccess;
+using Core.DataAccess.EntityFramework;
 using DataAccess.Abstact;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;

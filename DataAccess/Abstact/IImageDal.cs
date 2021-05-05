@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataAccess.Abstact
 {
-   public interface ICarImageDal:IEntityRepository<CarImage>
+   public interface IImageDal:IEntityRepository<Image>
     {
     }
 }

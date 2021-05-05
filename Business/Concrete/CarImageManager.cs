@@ -15,16 +15,16 @@ using System.Text;
 
 namespace Business.Concrete
 {
-    public class CarImageManager : ICarImageService
+    public class CarImageManager : IImageService
     {
-        ICarImageDal _carImageDal;
+        IImageDal _carImageDal;
 
-        public CarImageManager(ICarImageDal carImageDal)
+        public CarImageManager(IImageDal carImageDal)
         {
             _carImageDal = carImageDal;
         }
         [ValidationAspect(typeof(ImageValidator))]
-        public IResult Add(IFormFile file, CarImage image)
+        public IResult Add(IFormFile file, Image image)
         {
             IResult result = Engine.Run(CheckIfImageCountCorrect(image.ImageId), CheckIfImageNull(image.ImageId));
             if (result!=null)
@@ -36,7 +36,7 @@ namespace Business.Concrete
             return new ErrorResult(Messages.ImageNotAdded);
         }
         [ValidationAspect(typeof(ImageValidator))]
-        public IResult Delete(CarImage image)
+        public IResult Delete(Image image)
         {
             var result = _carImageDal.Get(p => p.ImageId == image.ImageId);
             FileHelper.Delete(result.ImagePath);
@@ -44,34 +44,34 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ImageDeleted);
         }
 
-        public IDataResult<List<CarImage>> GetAll()
+        public IDataResult<List<Image>> GetAll()
         {
-            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(), Messages.ImageListed);
+            return new SuccessDataResult<List<Image>>(_carImageDal.GetAll(), Messages.ImageListed);
         }
 
-        public IDataResult<CarImage> GetById(int id)
+        public IDataResult<Image> GetById(int id)
         {
             var result= Engine.Run(CheckIfImageNull(id));
             if (result==null)
             {
-                return new ErrorDataResult<CarImage>(Messages.ImageNotGet);
+                return new ErrorDataResult<Image>(Messages.ImageNotGet);
 
             }
-            return new SuccessDataResult<CarImage>(_carImageDal.Get(p => p.ImageId == id), Messages.ImageGet);
+            return new SuccessDataResult<Image>(_carImageDal.Get(p => p.ImageId == id), Messages.ImageGet);
         }
 
-        public IDataResult<List<CarImage>> GetImagesByCarId(int id)
+        public IDataResult<List<Image>> GetImagesByCarId(int id)
         {
            var result= Engine.Run(CheckIfImageNull(id));
             if (result==null)
             {
-                return new ErrorDataResult<List<CarImage>>(Messages.ImageNotGet);
+                return new ErrorDataResult<List<Image>>(Messages.ImageNotGet);
             }
-            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(p => p.CarId == id), Messages.ImageListed);
+            return new SuccessDataResult<List<Image>>(_carImageDal.GetAll(p => p.CarId == id), Messages.ImageListed);
 
         }
         [ValidationAspect(typeof(ImageValidator))]
-        public IResult Update(IFormFile file, CarImage image)
+        public IResult Update(IFormFile file, Image image)
         {
             var result = _carImageDal.Get(p => p.ImageId == image.ImageId);
             if (result==null)            
@@ -94,16 +94,16 @@ namespace Business.Concrete
             return new ErrorResult(Messages.ImageLimitExceeded);  
         }
 
-        private IDataResult<List<CarImage>> CheckIfImageNull(int imageId)
+        private IDataResult<List<Image>> CheckIfImageNull(int imageId)
         {
             string path = @"C:\Users\buuna\source\repos\Car\Image\logo.jpg";
             var result = _carImageDal.GetAll(p => p.ImageId == imageId).Any();
             if (!result)
             {
-                return new ErrorDataResult<List<CarImage>>(path);
+                return new ErrorDataResult<List<Image>>(path);
                 
             }
-            return new SuccessDataResult<List<CarImage>>("");
+            return new SuccessDataResult<List<Image>>("");
         }
 
 

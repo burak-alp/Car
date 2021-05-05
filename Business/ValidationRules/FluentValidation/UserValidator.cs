@@ -12,10 +12,10 @@ namespace Business.ValidationRules.FluentValidation
         {
             RuleFor(p => p.UserId).NotEmpty();
             RuleFor(p => p.FirstName).NotEmpty();
-            RuleFor(p => p.Email).EmailAddress();
+            
             RuleFor(p => p.LastName).NotEmpty();
             RuleFor(p => p.Password).NotEmpty();
-            RuleFor(p => p.Password).InclusiveBetween(0, 12);
+           
         }
         
     }

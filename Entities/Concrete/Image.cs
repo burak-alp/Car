@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Entities.Concrete
 {
-   public class CarImage:IEntity
+   public class Image:IEntity
     {
-        public CarImage()
+        public Image()
         {
             Date = DateTime.Now;
         }
