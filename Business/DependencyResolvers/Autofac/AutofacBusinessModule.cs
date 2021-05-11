@@ -4,8 +4,10 @@ using Business.Abstact;
 using Business.Concrete;
 using Castle.DynamicProxy;
 using Core.Entitites.Interceptors;
+using Core.Utilities.Security.JWT;
 using DataAccess.Abstact;
 using DataAccess.Concrete.EntityFramework;
+using DataAccess.Concrete.EntityFrameWork;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +30,8 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
             builder.RegisterType<RentalManager>().As<IRentalService>().SingleInstance();
             builder.RegisterType<EfRentalDal>().As<IRentalDal>().SingleInstance();
+            builder.RegisterType<AuthManager>().As<IAuthService>();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
